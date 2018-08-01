@@ -30,6 +30,15 @@ export const style = StyleSheet.create({
     },
     cyan: {
       backgroundColor: '#69A197'
+    },
+    f_1:{
+      flex:1
+    },
+    f_2:{
+      flex:2
+    },
+    f_3:{
+      flex:3
     }
     
   });

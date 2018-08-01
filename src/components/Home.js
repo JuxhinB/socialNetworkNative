@@ -4,7 +4,6 @@ import { AsyncStorage } from 'react-native';
 import { getHomePost } from '../actions/getHomePost';
 import UserPost from './snippets/userPost';
 import { style } from '../style/style';
-import { AuthorizedNavigation } from '../navigators/AuthorizedNavigation';
 
 export default class Home extends Component {
 
@@ -43,22 +42,18 @@ export default class Home extends Component {
 
     render() {
 
-    const { postResult } = this.state;
+			const { postResult } = this.state;
 
-    return (
-        <View>
-            <AuthorizedNavigation/>
-            
-            <ScrollView style={style.saffron}>
-
-                {
-                (postResult && Array.isArray(postResult) && postResult.length > 0 ) && postResult.map((item)=>(
-                    <UserPost key={item.id} post={item}/>
-                    ))
-                }
-
-            </ScrollView>
-        </View>
-        );
+			return (
+					<View>
+							<ScrollView style={style.saffron}>
+									{
+									(postResult && Array.isArray(postResult) && postResult.length > 0 ) && postResult.map((item)=>(
+											<UserPost key={item.id} post={item}/>
+											))
+									}
+							</ScrollView>
+					</View>
+					);
     }
 }

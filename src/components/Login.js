@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 import { View, TextInput, KeyboardAvoidingView, Button } from 'react-native';
+import { connect } from 'react-redux';
 import { style } from '../style/style';
 import { postLogin } from '../actions/postLogin';
-import { AsyncStorage } from "react-native";
+import { AsyncStorage } from 'react-native';
+import { UnAuthorizedNav } from '../navigators/UnAuthorizedNav';
+import { _emailChange } from '../actions/_emailChange';
+import { _passwordChange } from '../actions/_passwordChange';
 
-export default class Login extends Component {
-    state = {
-        email: 'juxhinb@gmail.com',
-        password: '123456'
-    };
+class Login extends Component {
 
-    handleEmailChange = async (value) => {
-        await this.setState({ email: value });
+    handleEmailChange = async (email) => {
+        this.props._emailChange(email);
     }
-
-    handlePasswordChange = async (value) =>{
-        await this.setState({ password: value });
+    handlePasswordChange = async (password) =>{
+        this.props._passwordChange(password);
     }
 
     setUserInfo = async (id,name,token) => {
@@ -26,7 +25,7 @@ export default class Login extends Component {
                 AsyncStorage.setItem('token',"Bearer "+token),
             ]);
             } catch (error) {
-            console.warn(error);
+                console.warn(error);
         }
     }
 
@@ -61,15 +60,13 @@ export default class Login extends Component {
 
             <TextInput
             style={style.inputs}
-            onChangeText={(value) => this.handleEmailChange(value)}
-            value={this.state.email}
+            onChangeText={this.handleEmailChange.bind(this)}
             placeholder={'Email Here'}
             />
 
             <TextInput
             style={style.inputs}
-            onChangeText={(value) => this.handlePasswordChange(value)}
-            value={this.state.password}
+            onChangeText={this.handlePasswordChange.bind(this)}
             placeholder={'Password Here'}
             secureTextEntry={true}
             />
@@ -80,3 +77,6 @@ export default class Login extends Component {
     );
   }
 }
+
+
+export default connect(null,{ _emailChange,_passwordChange })(Login);

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "clear-start" : "react-native start --reset-cache",
+    "clear-start": "react-native start --reset-cache",
     "test": "jest"
   },
   "dependencies": {
@@ -13,7 +13,9 @@
     "react": "16.4.1",
     "react-native": "^0.55.4",
     "react-navigation": "^2.9.0",
-    "redux": "^4.0.0"
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.6",

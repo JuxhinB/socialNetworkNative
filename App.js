@@ -1,31 +1,15 @@
 import React, { Component } from 'react';
-import { AsyncStorage,View } from 'react-native';
-import Login from './src/components/Login';
-import Home from './src/components/Home';
+import { SwitchNav } from './src/navigators/SwitchNav';
+import { Provider } from 'react-redux';
+import { store } from './src/store';
 
-export default class App extends Component {  
 
-  state = {
-    token : false
-  }
-
-  verifyToken = async () => {
-      const userToken = await AsyncStorage.getItem('token');
-      if(userToken){
-        await this.setState({token:true});
-        }
-      //this.props.navigation.navigate(userToken ? 'Home' : 'Login');
-  }
-
+export default class App extends Component {
   render() {
-    if(this.state.token === true){
       return (
-        <Login/>
+        <Provider store={store}>
+          <SwitchNav/>
+        </Provider>
       );
-    }else{
-      return (
-        <Home/>
-      );
-    }
   }
 }
