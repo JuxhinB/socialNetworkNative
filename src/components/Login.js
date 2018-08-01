@@ -1,82 +1,91 @@
 import React, { Component } from 'react';
-import { View, TextInput, KeyboardAvoidingView, Button } from 'react-native';
+import { View, TextInput, KeyboardAvoidingView, Button, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { style } from '../style/style';
-import { postLogin } from '../actions/postLogin';
 import { AsyncStorage } from 'react-native';
 import { UnAuthorizedNav } from '../navigators/UnAuthorizedNav';
 import { _emailChange } from '../actions/_emailChange';
 import { _passwordChange } from '../actions/_passwordChange';
+import { _userInfo } from '../actions/_userInfo';
+import { _loadingProcces } from '../actions/_loadingProcces';
+import { _loginError } from '../actions/_loginError';
+import { _loginSuccess } from '../actions/_loginSuccess';
 
 class Login extends Component {
 
     handleEmailChange = async (email) => {
-        this.props._emailChange(email);
+        await this.props._emailChange(email);
     }
     handlePasswordChange = async (password) =>{
-        this.props._passwordChange(password);
+        await this.props._passwordChange(password);
     }
 
-    setUserInfo = async (id,name,token) => {
-        try {
-            await Promise.all([
-                AsyncStorage.setItem('id' , id),
-                AsyncStorage.setItem('name',name),
-                AsyncStorage.setItem('token',"Bearer "+token),
-            ]);
-            } catch (error) {
-                console.warn(error);
+    handleLoginPress =  () => {
+        const {email, password} = this.props;
+        this.props._loginSuccess(email,password);
+    }
+
+    errorLoginCheck = () =>{
+        if(this.props.error){
+            return(
+                <View>
+                    <Text>{this.props.error}</Text>
+                </View>
+            )
         }
     }
 
-    handleLogin = () => {
-        if (this.state.email !== '' && this.state.password !== '') {
-            postLogin(this.state.email, this.state.password).then(
-                result => {
-                    this.setUserInfo(result.data.id, result.data.name, result.data.token);
-                    this.props.navigation.navigate('Home');
-                }).catch(error=>{
-                    console.error('Wrong Credentials !' + error);
-                });
+    handleWait = () =>{
+        if(this.props.loading===true){
+            return(
+                <Text>Please Wait !</Text>
+            );
         }
-    }
-
-    clearFirst = async() => {
-        try {
-            await AsyncStorage.clear();
-        } catch (error) {
-            console.warn(error);
+        else{
+            return(
+                <Button onPress={this.handleLoginPress} title={'Log In'} />
+            );
         }
-    }
-    
-    componentDidMount(){
-        this.clearFirst();
     }
 
     render() {
     return (
       <View style={[style.alignAllCenter, style.cyan]}>
         <KeyboardAvoidingView style={style.alignAllCenter}>
-
             <TextInput
             style={style.inputs}
             onChangeText={this.handleEmailChange.bind(this)}
             placeholder={'Email Here'}
             />
-
             <TextInput
             style={style.inputs}
             onChangeText={this.handlePasswordChange.bind(this)}
             placeholder={'Password Here'}
             secureTextEntry={true}
             />
-            <Button onPress={this.handleLogin} title={'Log In'} />
 
+            {this.handleWait()}
+            
+            {this.errorLoginCheck()}
         </KeyboardAvoidingView>
       </View>
     );
   }
 }
 
+const mapStateToProps = ({login}) =>{
+    const {email, password,loading,error} = login;
+    return ({email, password, loading, error});
+}
 
-export default connect(null,{ _emailChange,_passwordChange })(Login);
+export default connect(
+    mapStateToProps,
+    { 
+        _emailChange, 
+        _passwordChange, 
+        _userInfo, 
+        _loadingProcces,
+        _loginError,
+        _loginSuccess
+    }
+)(Login);

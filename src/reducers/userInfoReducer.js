@@ -1,18 +1,16 @@
 import { USER_INFO } from '../types';
 
-INIT_STATE = {
+USER = {
     id:'',
     name:'',
     token:''
 };
 
-export default (state=INIT_STATE, action)=>{
-    
-    const { id, name, token } = action.payload;
+export default (state=USER, action)=>{
 
     switch (action.payload) {
         case USER_INFO:
-            return{...state, id:id, name:name, token:token};
+            return{...state, id:action.id, name:action.name, token:action.token};
         default:
             return{state};
     }
