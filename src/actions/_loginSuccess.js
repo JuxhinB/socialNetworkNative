@@ -4,6 +4,7 @@ import {
     LOGIN_FAIL, 
     USER_INFO 
 }from '../types';
+
 import { postLogin } from '../actions/postLogin';
 
 export const _loginSuccess = (email,password) =>{

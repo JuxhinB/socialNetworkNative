@@ -2,13 +2,10 @@ import React, { Component } from 'react';
 import { View, TextInput, KeyboardAvoidingView, Button, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { style } from '../style/style';
-import { AsyncStorage } from 'react-native';
+//import { AsyncStorage } from 'react-native';
 import { UnAuthorizedNav } from '../navigators/UnAuthorizedNav';
 import { _emailChange } from '../actions/_emailChange';
 import { _passwordChange } from '../actions/_passwordChange';
-import { _userInfo } from '../actions/_userInfo';
-import { _loadingProcces } from '../actions/_loadingProcces';
-import { _loginError } from '../actions/_loginError';
 import { _loginSuccess } from '../actions/_loginSuccess';
 
 class Login extends Component {
@@ -82,10 +79,7 @@ export default connect(
     mapStateToProps,
     { 
         _emailChange, 
-        _passwordChange, 
-        _userInfo, 
-        _loadingProcces,
-        _loginError,
+        _passwordChange,
         _loginSuccess
     }
 )(Login);

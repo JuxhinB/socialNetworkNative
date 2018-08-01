@@ -8,7 +8,7 @@ USER = {
 
 export default (state=USER, action)=>{
 
-    switch (action.payload) {
+    switch (action.type) {
         case USER_INFO:
             return{...state, id:action.id, name:action.name, token:action.token};
         default:
